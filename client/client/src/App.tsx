@@ -1,9 +1,10 @@
 import React from 'react';
+import { Signup } from './components/Signup'
 
 function App() {
   return (
     <div>
-      <p>Hello world</p>
+      <Signup />
     </div>
   );
 }
