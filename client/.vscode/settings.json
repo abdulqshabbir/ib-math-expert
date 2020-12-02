@@ -1,0 +1,13 @@
+{
+    "git.ignoreLimitWarning": true,
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "files.exclude": {
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/.eslintcache": true,
+        "**/package-lock.json": true,
+        "**/yarn.lock": true,
+    }
+}
