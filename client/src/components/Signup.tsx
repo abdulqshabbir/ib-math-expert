@@ -1,27 +1,36 @@
-import React, {useState} from 'react'
-import { Form, Button } from 'semantic-ui-react'
+import React, {useContext, useState} from 'react'
+import { Form, Button, Message, Header } from 'semantic-ui-react'
 import { signupUser } from '../authentication/signup'
 import './Signup.css'
+import { UpdateAuthContext } from './AuthProvider'
 
 export const Signup = () => {
+    debugger;
+
+    // state variables for form
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
+
     const [error, setError] = useState('')
-    const [user, setUser] = useState({})
     const [isLoading, setIsLoading] = useState(false)
 
+    // authenticates user globally in application
+    const authenticateUser = useContext(UpdateAuthContext)
+
+    // form submission handler
     function handleSubmit(email: string, password: string, passwordConfirm: string) {
-        // internal check to make sure passwords match
+        setError('')
         if (password !== passwordConfirm) {
             setError('Passwords do not match.')
             return
         }
-        // have google sign up user
-        signupUser(email, password, setError, setUser, setIsLoading)
+        signupUser(email, password, setError, authenticateUser, setIsLoading)
     }
+
     return(
         <Form className="signup-form-container">
+            <Header as='h1'>Signup Here.</Header>
             <Form.Field className="signup-form-field">
                 <label>Email: </label>
                 <input 
@@ -57,7 +66,9 @@ export const Signup = () => {
             >
                 Sign Up
             </Button>
-            {error ? <p>{error}</p> : null}
+            <Message warning>
+                <p>{error}</p>
+            </Message>
         </Form>
     )
 }
