@@ -5,8 +5,6 @@ import './Signup.css'
 import { UpdateAuthContext } from './AuthProvider'
 
 export const Signup = () => {
-    debugger;
-
     // state variables for form
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -19,13 +17,28 @@ export const Signup = () => {
     const authenticateUser = useContext(UpdateAuthContext)
 
     // form submission handler
-    function handleSubmit(email: string, password: string, passwordConfirm: string) {
+    async function handleSubmit(email: string, password: string, passwordConfirm: string) {
+        debugger;
         setError('')
+        setIsLoading(true)
         if (password !== passwordConfirm) {
             setError('Passwords do not match.')
+            setIsLoading(false)
             return
         }
-        signupUser(email, password, setError, authenticateUser, setIsLoading)
+        await signupUser(email, password, setError, authenticateUser)
+        setIsLoading(false)
+    }
+
+    let ErrorMessage = null
+
+    if (error !== '') {
+        ErrorMessage =
+            <Message negative size="tiny">
+                <Message.Content>
+                    {error}
+                </Message.Content>
+            </Message>
     }
 
     return(
@@ -62,13 +75,12 @@ export const Signup = () => {
                 type="submit"
                 color="blue"
                 className="signup-form-button"
+                disabled={isLoading}
                 onClick={(e) => handleSubmit(email, password, passwordConfirm)}
             >
                 Sign Up
             </Button>
-            <Message warning>
-                <p>{error}</p>
-            </Message>
+            {ErrorMessage}
         </Form>
     )
 }

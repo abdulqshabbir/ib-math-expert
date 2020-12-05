@@ -5,23 +5,16 @@ export const signupUser =
         email: string,
         password: string,
         setError: React.Dispatch<React.SetStateAction<string>>,
-        setUser: (email: string, id: string) => void,
-        setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+        authenticateUser: (email: string, id: string) => void
     ) => {
         try {
-            // isLoading controls the disabling of the signup button
-            setIsLoading(true)
-
             // create user and store in context
             const firebaseUserObject = await auth.createUserWithEmailAndPassword(email, password)
 
-            // re-enable the signup button
-            setIsLoading(false)
-
             if (firebaseUserObject.user && firebaseUserObject.user.email) {
                 const email: string = firebaseUserObject.user.email
-                const password: string = firebaseUserObject.user.uid
-                setUser(email, password)
+                const uid: string = firebaseUserObject.user.uid
+                authenticateUser(email, uid)
             } else {
                 setError('No user found in database.')
             }
