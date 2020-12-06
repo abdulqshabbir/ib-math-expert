@@ -3,6 +3,7 @@ import { Form, Button, Message, Header } from 'semantic-ui-react'
 import { signupUser } from '../authentication/signup'
 import './Signup.css'
 import { useAuthUpdate } from '../contexts/AuthProvider'
+import { Link } from 'react-router-dom'
 
 export const Signup = () => {
     // state variables for form
@@ -10,30 +11,29 @@ export const Signup = () => {
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
 
-    const [error, setError] = useState('')
+    const [error, setMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
     const authenticateUser = useAuthUpdate()
 
     // form submission handler
     async function handleSubmit(email: string, password: string, passwordConfirm: string) {
-        debugger;
-        setError('')
+        setMessage('')
         setIsLoading(true)
         if (password !== passwordConfirm) {
-            setError('Passwords do not match.')
+            setMessage('Passwords do not match.')
             setIsLoading(false)
             return
         }
-        await signupUser(email, password, setError, authenticateUser)
+        await signupUser(email, password, setMessage, authenticateUser)
         setIsLoading(false)
     }
 
-    let ErrorMessage = null
+    let SignupMessage = null
 
     if (error !== '') {
-        ErrorMessage =
-            <Message negative size="tiny">
+        SignupMessage =
+            <Message size="tiny">
                 <Message.Content>
                     {error}
                 </Message.Content>
@@ -79,7 +79,8 @@ export const Signup = () => {
             >
                 Sign Up
             </Button>
-            {ErrorMessage}
+            <p>Already a User? <Link to='/login'>Login here.</Link></p>
+            {SignupMessage}
         </Form>
     )
 }

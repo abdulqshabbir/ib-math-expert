@@ -4,7 +4,7 @@ export const signupUser =
     async (
         email: string,
         password: string,
-        setError: React.Dispatch<React.SetStateAction<string>>,
+        setMessage: React.Dispatch<React.SetStateAction<string>>,
         authenticateUser: (email: string, id: string) => void
     ) => {
         try {
@@ -15,11 +15,12 @@ export const signupUser =
                 const email: string = firebaseUserObject.user.email
                 const uid: string = firebaseUserObject.user.uid
                 authenticateUser(email, uid)
+                setMessage("New account created!  Login with your new account.")
             } else {
-                setError('No user found in database.')
+                setMessage('No user found in database.')
             }
         } catch (e) {
             // throw error back to client
-            setError(e.message)
+            setMessage(e.message)
         }
     }

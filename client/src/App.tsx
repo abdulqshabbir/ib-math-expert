@@ -3,7 +3,7 @@ import { AuthProvider } from './contexts/AuthProvider'
 import { Signup } from './components/Signup'
 import { DashBoard } from './components/Dashboard'
 import { Login } from './components/Login'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 function App() {
   return (
@@ -11,7 +11,10 @@ function App() {
       <Router>
         <AuthProvider>
           <Switch>
-            <Route path="/">
+            <Route exact path="/">
+              <Login />
+            </Route>
+            <Route path="/login">
               <Login />
             </Route>
             <Route path="/signup">
