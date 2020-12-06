@@ -4,6 +4,7 @@ import { Signup } from './components/Signup'
 import { DashBoard } from './components/Dashboard'
 import { Login } from './components/Login'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { PrivateRoute } from './components/PrivateRoute'
 
 function App() {
   return (
@@ -20,9 +21,10 @@ function App() {
             <Route path="/signup">
               <Signup />
             </Route>
-            <Route path="/dashboard">
-              <DashBoard />
-            </Route>
+            <PrivateRoute 
+              path="/dashboard"
+              exact={false}
+              component={DashBoard}/>
           </Switch>
         </AuthProvider>
       </Router>
