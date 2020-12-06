@@ -1,0 +1,28 @@
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-form-field {
+  width: 400px;
+}
+
+.login-form-button {
+  width: 400px;
+}
+
+.ui.form .field > label {
+  font-weight: 200;
+}
+
+@media (max-width: 400px) {
+  .login-form-field {
+    width: 70%;
+  }
+  .login-form-button {
+    width: 70%;
+  }
+}
