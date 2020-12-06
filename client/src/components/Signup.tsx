@@ -1,8 +1,8 @@
-import React, {useContext, useState} from 'react'
+import React, { useState} from 'react'
 import { Form, Button, Message, Header } from 'semantic-ui-react'
 import { signupUser } from '../authentication/signup'
 import './Signup.css'
-import { UpdateAuthContext } from './AuthProvider'
+import { useAuthUpdate } from '../contexts/AuthProvider'
 
 export const Signup = () => {
     // state variables for form
@@ -13,8 +13,7 @@ export const Signup = () => {
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
-    // authenticates user globally in application
-    const authenticateUser = useContext(UpdateAuthContext)
+    const authenticateUser = useAuthUpdate()
 
     // form submission handler
     async function handleSubmit(email: string, password: string, passwordConfirm: string) {

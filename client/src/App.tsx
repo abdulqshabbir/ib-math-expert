@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthProvider } from './components/AuthProvider'
+import { AuthProvider } from './contexts/AuthProvider'
 import { Signup } from './components/Signup'
 import { DashBoard } from './components/Dashboard'
 

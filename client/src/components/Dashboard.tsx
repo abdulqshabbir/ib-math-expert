@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
-import { AuthContext } from './AuthProvider'
+import React from 'react'
+import { useAuth } from '../contexts/AuthProvider'
 import { Message } from 'semantic-ui-react'
 
 export const DashBoard = () => {
-    const user = useContext(AuthContext)
+    const user = useAuth()
     let Render = null
     if (user.id !== null) {
         Render = 

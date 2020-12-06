@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 
 interface User {
     email: string | null,
@@ -10,8 +10,16 @@ const defaultUser: User = {
     id: null
 }
 
-export const AuthContext = React.createContext<User>(defaultUser)
-export const UpdateAuthContext = React.createContext((email: string, id: string) => {})
+const AuthContext = React.createContext<User>(defaultUser)
+const UpdateAuthContext = React.createContext((email: string, id: string) => {})
+
+export function useAuth() {
+    return useContext(AuthContext)
+}
+
+export function useAuthUpdate() {
+    return useContext(UpdateAuthContext)
+}
 
 export const AuthProvider = ({ children }: any) => {
 
