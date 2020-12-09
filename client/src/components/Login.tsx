@@ -19,14 +19,9 @@ export const Login = () => {
         setError('')
         setIsLoading(true)
         try {
-            const firebaseUser = await auth.signInWithEmailAndPassword(email, password)
+            await auth.signInWithEmailAndPassword(email, password)
             setIsLoading(false)
-
-            if(userHasRequiredFields(firebaseUser)) {
-                history.push('/dashboard') 
-            } else {
-                setError('Could not log in user.')
-            }
+            history.push('/dashboard')
         } catch(e) {
             setIsLoading(false)
             setError(e.message)
@@ -75,13 +70,11 @@ export const Login = () => {
                 >
                     Login
                 </Button>
-                <p>{ErrorMessage}</p>
-                <p>New User? <Link to='/signup'>Signup Here.</Link></p>
+                <div>{ErrorMessage}</div>
+                <div>
+                    New User? <Link to='/signup'>Signup here.</Link>
+                </div>
             </Form>
         </>
     )
-}
-
-function userHasRequiredFields(firebaseUser: any) {
-    return firebaseUser.user && firebaseUser.email && firebaseUser.uid
 }

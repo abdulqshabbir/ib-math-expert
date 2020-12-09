@@ -1,4 +1,5 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
+import { auth } from '../firebase'
 
 interface User {
     email: string | null,
@@ -34,6 +35,21 @@ export const AuthProvider = ({ children }: any) => {
             }
         })
     }
+
+    useEffect(() => {
+        const listener = auth.onAuthStateChanged(user => {
+            if (user && user.email) {
+                setUser(prevState => {
+                    return {
+                        ...prevState,
+                        email: user.email,
+                        id: user.uid
+                    }
+                })
+            }
+        })
+        return listener
+    }, [])
 
     return(
         <AuthContext.Provider value={user}>

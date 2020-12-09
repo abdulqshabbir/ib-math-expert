@@ -26,7 +26,14 @@ export const Signup = () => {
             return
         }
         await signupUser(email, password, setMessage, authenticateUser)
+        clearFormFields()
         setIsLoading(false)
+    }
+
+    function clearFormFields() {
+        setEmail('')
+        setPassword('')
+        setPasswordConfirm('')
     }
 
     let SignupMessage = null
