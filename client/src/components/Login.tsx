@@ -1,6 +1,5 @@
 import React, { useState} from 'react'
-import { auth } from '../firebase'
-
+import { useAuth } from '../contexts/AuthProvider'
 import { Form, Button, Message, Header } from 'semantic-ui-react'
 import { Link, useHistory } from 'react-router-dom'
 import './Login.css'
@@ -13,26 +12,32 @@ export const Login = () => {
     const [isLoading, setIsLoading] = useState(false)
     
     const history = useHistory()
+    const { login } = useAuth()
 
     // form submission handler
     async function handleSubmit(email: string, password: string) {
         setError('')
         setIsLoading(true)
         try {
-            await auth.signInWithEmailAndPassword(email, password)
+            await login(email, password)
             setIsLoading(false)
             history.push('/dashboard')
         } catch(e) {
-            setIsLoading(false)
             setError(e.message)
+            setIsLoading(false)
         }
     }
 
     let ErrorMessage = null
 
+    const styles = {
+        "marginTop": "20px",
+        "marginBottom": "20px"
+    }
+
     if (error !== '') {
         ErrorMessage =
-            <Message negative size="tiny">
+            <Message negative size="tiny" style={styles}>
                 <Message.Content>
                     {error}
                 </Message.Content>

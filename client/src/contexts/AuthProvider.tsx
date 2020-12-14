@@ -11,51 +11,62 @@ const defaultUser: User = {
     id: null
 }
 
-const AuthContext = React.createContext<User>(defaultUser)
-const UpdateAuthContext = React.createContext((email: string, id: string) => {})
-
-export function useAuth() {
-    return useContext(AuthContext)
+interface AuthContext {
+    user: User,
+    login: (email: string, password: string) => Promise<firebase.default.auth.UserCredential>,
+    signup: (email: string, password: string) => Promise<firebase.default.auth.UserCredential>,
+    logout: () => Promise<void>
+    
 }
 
-export function useAuthUpdate() {
-    return useContext(UpdateAuthContext)
+function login(email: string, password: string) {
+    return auth.signInWithEmailAndPassword(email, password)
+}
+
+function signup(email: string, password: string) {
+    return auth.createUserWithEmailAndPassword(email, password)
+}
+
+function logout() {
+    return auth.signOut()
+}
+
+const authContext = React.createContext<AuthContext>({
+    user: defaultUser,
+    login,
+    signup,
+    logout,
+})
+
+export function useAuth() {
+    return useContext(authContext)
 }
 
 export const AuthProvider = ({ children }: any) => {
-
     const [user, setUser] = useState(defaultUser)
-
-    function authenticateUser(email: string, id: string) {
-        setUser(prevState => {
-            return {
-                ...prevState,
-                email,
-                id
-            }
-        })
-    }
 
     useEffect(() => {
         const listener = auth.onAuthStateChanged(user => {
-            if (user && user.email) {
-                setUser(prevState => {
-                    return {
-                        ...prevState,
-                        email: user.email,
-                        id: user.uid
-                    }
+            if (user) {
+                setUser({
+                    email: user.email,
+                    id: user.uid
                 })
             }
         })
         return listener
-    }, [])
+    }, [user.email])
+
+    const value = {
+        user,
+        login,
+        signup,
+        logout
+    }
 
     return(
-        <AuthContext.Provider value={user}>
-            <UpdateAuthContext.Provider value={authenticateUser}>
-                {children}
-            </UpdateAuthContext.Provider>
-        </AuthContext.Provider>
+        <authContext.Provider value={value}>
+            {children}
+        </authContext.Provider>
     )
 }

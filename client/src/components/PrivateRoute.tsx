@@ -7,16 +7,14 @@ interface IProps {
     exact: boolean
 }
 
-export const PrivateRoute = (
-    {
-        component: Component,
-        path,
-        exact 
-    }: IProps) => {
+export const PrivateRoute = ({ component: Component, path, exact }: IProps) => {
+    const { user } = useAuth()
 
-    const user = useAuth()
+    let isPrivateRouteRendered = user.email ? true : false
 
-    let isPrivateRouteRendered = user.email && user.id
+    console.log('logged in user', user)
+
+    console.log('is private route rendered', isPrivateRouteRendered)
 
     return isPrivateRouteRendered ?
         <Route path={path} exact={exact} component={Component} /> :

@@ -46,6 +46,8 @@
     ]
   },
   "devDependencies": {
+    "@firebase/auth-types": "^0.10.1",
+    "@types/firebase": "^3.2.1",
     "@types/react-router-dom": "^5.1.6"
   }
 }

@@ -1,9 +1,8 @@
 import React, { useState} from 'react'
 import { Form, Button, Message, Header } from 'semantic-ui-react'
-import { signupUser } from '../authentication/signup'
 import './Signup.css'
-import { useAuthUpdate } from '../contexts/AuthProvider'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthProvider'
 
 export const Signup = () => {
     // state variables for form
@@ -14,7 +13,7 @@ export const Signup = () => {
     const [error, setMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
-    const authenticateUser = useAuthUpdate()
+    const { signup } = useAuth()
 
     // form submission handler
     async function handleSubmit(email: string, password: string, passwordConfirm: string) {
@@ -25,7 +24,8 @@ export const Signup = () => {
             setIsLoading(false)
             return
         }
-        await signupUser(email, password, setMessage, authenticateUser)
+        await signup(email, password)
+        setMessage('New user signed up! Log in with your new account.')
         clearFormFields()
         setIsLoading(false)
     }
